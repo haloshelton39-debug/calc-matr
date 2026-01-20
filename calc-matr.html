@@ -608,6 +608,7 @@
 
   // ====== View mode ======
   let VIEW_MODE = "full"; // "brief" | "full"
+  let LAST_CALC = null;
 
   function setMode(mode){
     VIEW_MODE = (mode === "brief") ? "brief" : "full";
@@ -618,6 +619,9 @@
         : `Режим: <strong>Кратко</strong> — только самое главное (1–2 минуты чтения).`;
     }
     applyViewMode();
+    if (LAST_CALC){
+      renderFromCache();
+    }
   }
 
   function applyViewMode(){
@@ -678,14 +682,26 @@
       if (c === 0) growth.push({i,c,t});
     }
 
-    // Render cards
-    renderSummary(fullName, birthCity, birthDate, core);
-    renderCore(lifePath, fullNameCode, cityCode, core, surCode, nameCode, patCode, dayCode, monthCode, yearCode);
-    renderMatrix(counts);
-    renderPortrait(lifePath, core, surCode, nameCode, patCode, cityCode, strengths, growth);
-    renderLifeAreas(lifePath, core, fullNameCode, cityCode, counts);
-    renderForecast(lifePath, core);
-    renderRecommendations(lifePath, core, strengths, growth);
+    LAST_CALC = {
+      fullName,
+      birthCity,
+      birthDate,
+      lifePath,
+      fullNameCode,
+      cityCode,
+      core,
+      surCode,
+      nameCode,
+      patCode,
+      dayCode,
+      monthCode,
+      yearCode,
+      counts,
+      strengths,
+      growth
+    };
+
+    renderFromCache();
 
     const res = document.getElementById('results');
     res.style.display = 'block';
@@ -698,6 +714,58 @@
       fullName,
       birthCity,
       birthDate,
+      blocks: collectBlocksForExport()
+    });
+  }
+
+  function renderFromCache(){
+    if (!LAST_CALC) return;
+
+    renderSummary(LAST_CALC.fullName, LAST_CALC.birthCity, LAST_CALC.birthDate, LAST_CALC.core);
+    renderCore(
+      LAST_CALC.lifePath,
+      LAST_CALC.fullNameCode,
+      LAST_CALC.cityCode,
+      LAST_CALC.core,
+      LAST_CALC.surCode,
+      LAST_CALC.nameCode,
+      LAST_CALC.patCode,
+      LAST_CALC.dayCode,
+      LAST_CALC.monthCode,
+      LAST_CALC.yearCode
+    );
+    renderMatrix(LAST_CALC.counts);
+    renderPortrait(
+      LAST_CALC.lifePath,
+      LAST_CALC.core,
+      LAST_CALC.surCode,
+      LAST_CALC.nameCode,
+      LAST_CALC.patCode,
+      LAST_CALC.cityCode,
+      LAST_CALC.strengths,
+      LAST_CALC.growth
+    );
+    renderLifeAreas(
+      LAST_CALC.lifePath,
+      LAST_CALC.core,
+      LAST_CALC.fullNameCode,
+      LAST_CALC.cityCode,
+      LAST_CALC.counts
+    );
+    renderForecast(LAST_CALC.lifePath, LAST_CALC.core);
+    renderRecommendations(
+      LAST_CALC.lifePath,
+      LAST_CALC.core,
+      LAST_CALC.strengths,
+      LAST_CALC.growth
+    );
+    applyViewMode();
+
+    LAST_REPORT_HTML = buildReportHtmlDocument({
+      viewMode: VIEW_MODE,
+      fullName: LAST_CALC.fullName,
+      birthCity: LAST_CALC.birthCity,
+      birthDate: LAST_CALC.birthDate,
       blocks: collectBlocksForExport()
     });
   }
