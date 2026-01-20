@@ -1,0 +1,1354 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Нумерологический Паспорт Личности — готовый продукт</title>
+  <style>
+    :root{
+      --bg:#0b0b12;
+      --card:#141427;
+      --text:#e9e9f2;
+      --muted:#b9b9cc;
+      --primary:#7c3aed;
+      --accent:#fbbf24;
+      --danger:#fb7185;
+      --border: rgba(255,255,255,0.09);
+      --shadow: 0 14px 40px rgba(0,0,0,0.55);
+      --glass: rgba(255,255,255,0.04);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      color:var(--text);
+      line-height:1.6;
+      background:
+        radial-gradient(1200px 520px at 15% 10%, rgba(124,58,237,0.28), transparent 55%),
+        radial-gradient(900px 420px at 88% 14%, rgba(251,191,36,0.18), transparent 50%),
+        radial-gradient(900px 420px at 50% 100%, rgba(34,211,238,0.10), transparent 55%),
+        var(--bg);
+    }
+
+    /* Layout */
+    .wrap{max-width:1100px;margin:0 auto;padding:22px}
+    .nav{
+      position:sticky; top:0; z-index:50;
+      background: linear-gradient(180deg, rgba(11,11,18,0.92), rgba(11,11,18,0.62));
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .navInner{max-width:1100px;margin:0 auto;padding:12px 22px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:0.3px}
+    .brand .logo{
+      width:34px;height:34px;border-radius:12px;
+      background: linear-gradient(135deg, rgba(251,191,36,1), rgba(124,58,237,1));
+      box-shadow: 0 10px 20px rgba(0,0,0,0.35);
+    }
+    .navLinks{display:flex;gap:12px;flex-wrap:wrap;justify-content:flex-end}
+    .navLinks a{
+      color:var(--muted);
+      text-decoration:none;
+      font-size:13px;
+      padding:8px 10px;
+      border-radius:999px;
+      border:1px solid transparent;
+    }
+    .navLinks a:hover{
+      color:var(--text);
+      border-color: rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .hero{
+      padding:34px 0 10px;
+      display:grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap:18px;
+      align-items:stretch;
+    }
+    @media (max-width: 900px){
+      .hero{grid-template-columns:1fr}
+    }
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), transparent 55%), var(--card);
+      border:1px solid var(--border);
+      border-radius:18px;
+      box-shadow: var(--shadow);
+      padding:18px;
+    }
+    .glass{
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), transparent 55%), rgba(20,20,39,0.72);
+      border:1px solid rgba(255,255,255,0.08);
+      border-radius:18px;
+      box-shadow: 0 14px 40px rgba(0,0,0,0.35);
+      padding:18px;
+    }
+
+    h1,h2,h3{margin:0 0 10px}
+    h1{font-size:34px;line-height:1.15}
+    .lead{color:var(--muted);margin:0 0 14px}
+    .badges{display:flex;gap:10px;flex-wrap:wrap}
+    .badge{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:8px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      font-size:13px;
+      white-space:nowrap;
+    }
+    .dot{width:8px;height:8px;border-radius:999px;background: var(--accent)}
+    .ctaRow{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+    .btn{
+      border:none; cursor:pointer;
+      border-radius:14px;
+      padding:12px 14px;
+      font-weight:900;
+      font-size:15px;
+      transition: transform .15s ease, filter .15s ease;
+      user-select:none;
+    }
+    .btn:hover{transform: translateY(-1px); filter: brightness(1.03)}
+    .btn:active{transform: translateY(0px); filter: brightness(0.98)}
+    .btnPrimary{background: linear-gradient(90deg, var(--accent), #ffe08c); color:#0b0b12}
+    .btnGhost{
+      background: rgba(255,255,255,0.03);
+      border:1px solid rgba(255,255,255,0.10);
+      color: var(--text);
+    }
+    .btnViolet{background: linear-gradient(90deg, rgba(124,58,237,1), rgba(167,139,250,1)); color:#0b0b12}
+    .btnSmall{padding:10px 12px;font-size:14px;border-radius:12px}
+
+    .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+    @media (max-width:900px){.grid3{grid-template-columns:1fr}}
+    .feat h3{margin:0 0 6px;font-size:16px}
+    .feat p{margin:0;color:var(--muted);font-size:14px}
+
+    /* App */
+    .appWrap{padding:10px 0 30px}
+    .sectionTitle{
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
+      margin-bottom:10px;
+    }
+    .hint{color:var(--muted);font-size:13px}
+    label{display:block;color:var(--muted);font-size:13px;margin:0 0 6px}
+    input{
+      width:100%;
+      background: rgba(255,255,255,0.04);
+      border:1px solid rgba(255,255,255,0.10);
+      color:var(--text);
+      padding:12px 12px;
+      border-radius:14px;
+      outline:none;
+      font-size:16px;
+    }
+    input:focus{border-color: rgba(251,191,36,0.60); box-shadow:0 0 0 3px rgba(251,191,36,0.10)}
+    .formGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    @media (max-width:760px){.formGrid{grid-template-columns:1fr}}
+
+    .mutedBox{
+      margin-top:10px;
+      padding:12px;
+      border-radius:14px;
+      background: rgba(255,255,255,0.03);
+      border:1px dashed rgba(255,255,255,0.10);
+      color:var(--muted);
+      font-size:14px;
+    }
+
+    .row{
+      display:flex;align-items:flex-start;justify-content:space-between;
+      gap:14px;
+      padding:10px 0;
+      border-bottom:1px solid rgba(255,255,255,0.08);
+    }
+    .row:last-child{border-bottom:none}
+    .k{color:var(--muted);font-size:14px}
+    .v{
+      font-weight:900;
+      color:var(--accent);
+      min-width:120px;
+      text-align:right;
+    }
+    .bigNumber{
+      font-size:34px;
+      font-weight:1000;
+      letter-spacing:0.6px;
+      color:var(--accent);
+    }
+    .master{color: var(--danger) !important; text-shadow: 0 0 14px rgba(251,113,133,0.22)}
+    .pill{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:7px 10px;
+      background: rgba(124,58,237,0.14);
+      border:1px solid rgba(124,58,237,0.22);
+      border-radius:999px;
+      color:#ddd6ff;
+      font-size:13px;
+      margin:6px 6px 0 0;
+      white-space:nowrap;
+    }
+    .pill .pDot{width:8px;height:8px;border-radius:50%; background: var(--primary)}
+
+    .matrix{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px}
+    @media (max-width:760px){.matrix{grid-template-columns:1fr}}
+    .cell{
+      border:1px solid rgba(255,255,255,0.09);
+      border-radius:16px;
+      padding:12px;
+      background: rgba(255,255,255,0.02);
+    }
+    .cell .n{font-weight:900;font-size:14px;color:var(--muted)}
+    .cell .count{font-weight:1000;font-size:22px;color:var(--accent)}
+    .barWrap{
+      margin-top:8px;height:8px;border-radius:999px;overflow:hidden;
+      background: rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.06);
+    }
+    .bar{height:100%; width:0%; background: linear-gradient(90deg, rgba(124,58,237,0.95), rgba(251,191,36,0.95))}
+    .list{margin:10px 0 0; padding-left:18px}
+    .list li{margin:6px 0}
+    .warn{
+      background: rgba(251,113,133,0.10);
+      border:1px solid rgba(251,113,133,0.18);
+      color:#ffd7df;
+      padding:12px;
+      border-radius:14px;
+      margin-top:10px;
+      font-size:14px;
+    }
+
+    /* Modal for HTML export */
+    .modalOverlay{
+      position:fixed; inset:0; z-index:200;
+      background: rgba(0,0,0,0.65);
+      display:none;
+      align-items:center; justify-content:center;
+      padding:18px;
+    }
+    .modal{
+      width:min(980px, 100%);
+      max-height: 86vh;
+      overflow:auto;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,0.10);
+      background: rgba(20,20,39,0.92);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.55);
+      padding:14px;
+    }
+    textarea{
+      width:100%;
+      min-height: 320px;
+      resize: vertical;
+      background: rgba(255,255,255,0.04);
+      border:1px solid rgba(255,255,255,0.10);
+      color: var(--text);
+      border-radius:14px;
+      padding:12px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size:12px;
+      outline:none;
+    }
+    .footer{
+      padding:18px 0 34px;
+      color: var(--muted);
+      font-size:13px;
+      text-align:center;
+      opacity:0.95;
+    }
+    .anchor{scroll-margin-top: 90px;}
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <div class="nav">
+    <div class="navInner">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <div>Нумерологический Паспорт</div>
+      </div>
+      <div class="navLinks">
+        <a href="#how">Как работает</a>
+        <a href="#app">Расчёт</a>
+        <a href="#faq">FAQ</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <!-- HERO -->
+    <div class="hero">
+      <div class="glass">
+        <h1>🔮 Нумерологический Паспорт Личности</h1>
+        <p class="lead">
+          Понятный индивидуальный разбор: <strong>характер</strong>, <strong>предназначение</strong>,
+          <strong>деньги</strong>, <strong>отношения</strong> и <strong>ресурс</strong> — по дате рождения, ФИО и городу рождения.
+        </p>
+
+        <div class="badges">
+          <span class="badge"><span class="dot"></span>100% локально в браузере</span>
+          <span class="badge"><span class="dot"></span>без регистрации</span>
+          <span class="badge"><span class="dot"></span>можно скачать HTML-отчёт</span>
+        </div>
+
+        <div class="ctaRow">
+          <a class="btn btnPrimary" href="#app" style="text-decoration:none;display:inline-flex;align-items:center;justify-content:center">
+            Получить расчёт
+          </a>
+          <button class="btn btnGhost" onclick="scrollToEl('how')">Как работает</button>
+        </div>
+
+        <div class="mutedBox">
+          ⚠️ Это инструмент самопонимания и символическая модель. Решения всегда за тобой.
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="sectionTitle">
+          <h2 style="margin:0;font-size:18px">Что ты получишь</h2>
+          <div class="hint">за 1–2 минуты</div>
+        </div>
+        <div class="grid3" style="grid-template-columns:1fr;gap:10px">
+          <div class="feat">
+            <h3>Ключ личности</h3>
+            <p>Главная тема жизни и сильные стороны — в короткой форме, без “воды”.</p>
+          </div>
+          <div class="feat">
+            <h3>Полный отчёт</h3>
+            <p>Коды + матрица + портрет + сферы жизни + прогноз и рекомендации.</p>
+          </div>
+          <div class="feat">
+            <h3>Экспорт в HTML</h3>
+            <p>Собираем весь результат в один HTML-файл: можно сохранить, отправить, распечатать.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HOW -->
+    <div class="card anchor" id="how">
+      <div class="sectionTitle">
+        <h2 style="margin:0">Как работает</h2>
+        <div class="hint">простая логика</div>
+      </div>
+      <div class="grid3">
+        <div class="feat">
+          <h3>1) Дата рождения</h3>
+          <p>Даёт общий жизненный сценарий и базовые задачи (число жизненного пути).</p>
+        </div>
+        <div class="feat">
+          <h3>2) ФИО</h3>
+          <p>Показывает, как ты проявляешься в мире: стиль действий, коммуникация, роль.</p>
+        </div>
+        <div class="feat">
+          <h3>3) Город рождения</h3>
+          <p>Добавляет “фон”: темп, возможности, среда — как место влияет на развитие.</p>
+        </div>
+      </div>
+      <div class="mutedBox">
+        ✅ Никаких данных не отправляется. Всё считается на твоём устройстве.
+      </div>
+    </div>
+
+    <!-- APP -->
+    <div class="appWrap anchor" id="app">
+      <div class="card">
+        <div class="sectionTitle">
+          <h2 style="margin:0">Индивидуальный расчёт</h2>
+          <div class="hint">5 полей — и готово</div>
+        </div>
+
+        <div class="formGrid">
+          <div>
+            <label>Фамилия</label>
+            <input id="surname" type="text" placeholder="Иванов" autocomplete="family-name">
+          </div>
+          <div>
+            <label>Имя</label>
+            <input id="name" type="text" placeholder="Иван" autocomplete="given-name">
+          </div>
+          <div>
+            <label>Отчество</label>
+            <input id="patronymic" type="text" placeholder="Иванович">
+          </div>
+          <div>
+            <label>Город рождения (официально)</label>
+            <input id="birthCity" type="text" placeholder="Москва">
+          </div>
+          <div>
+            <label>Дата рождения</label>
+            <input id="birthDate" type="date">
+          </div>
+
+          <div style="display:flex;align-items:end;gap:10px;flex-wrap:wrap">
+            <button class="btn btnPrimary" style="flex:1" onclick="calculate()">Рассчитать паспорт</button>
+            <button class="btn btnViolet btnSmall" style="flex:1" type="button" onclick="setMode('brief')">Кратко</button>
+            <button class="btn btnGhost btnSmall" style="flex:1" type="button" onclick="setMode('full')">Подробно</button>
+          </div>
+        </div>
+
+        <div class="mutedBox" id="modeHint">
+          Режим: <strong>Подробно</strong> — полный отчёт со всеми блоками.
+        </div>
+      </div>
+
+      <div id="results" style="display:none">
+        <div class="card" id="summaryCard"></div>
+
+        <div class="card" id="coreCard" data-detail="full"></div>
+        <div class="card" id="matrixCard" data-detail="full"></div>
+        <div class="card" id="portraitCard" data-detail="full"></div>
+        <div class="card" id="lifeAreasCard" data-detail="full"></div>
+        <div class="card" id="forecastCard" data-detail="full"></div>
+
+        <div class="card" id="recommendCard"></div>
+
+        <div class="card">
+          <div class="sectionTitle">
+            <h2 style="margin:0">Экспорт результата</h2>
+            <div class="hint">весь отчёт в HTML</div>
+          </div>
+          <div class="k">
+            Нажми кнопку — и мы соберём весь результат в <strong>отдельную HTML-страницу</strong> (со стилями), которую можно сохранить/отправить/распечатать.
+          </div>
+          <div class="ctaRow">
+            <button class="btn btnPrimary btnSmall" onclick="openExportModal()">Показать HTML отчёта</button>
+            <button class="btn btnViolet btnSmall" onclick="downloadReportHtml()">Скачать HTML</button>
+            <button class="btn btnGhost btnSmall" onclick="openReportInNewTab()">Открыть отчёт</button>
+          </div>
+          <div class="mutedBox">
+            ⚡ Экспорт берёт именно то, что рассчитано сейчас (и учитывает режим: кратко/подробно).
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="card anchor" id="faq">
+      <div class="sectionTitle">
+        <h2 style="margin:0">FAQ</h2>
+        <div class="hint">коротко</div>
+      </div>
+      <div class="row">
+        <div>
+          <strong>Это отправляет мои данные куда-то?</strong>
+          <div class="k">Нет. Всё работает локально в браузере. Нет сервера, нет отправки данных.</div>
+        </div>
+      </div>
+      <div class="row">
+        <div>
+          <strong>Можно сохранить результат?</strong>
+          <div class="k">Да. Нажми «Скачать HTML» — это будет полноценный файл с отчётом.</div>
+        </div>
+      </div>
+      <div class="row">
+        <div>
+          <strong>Кратко / Подробно — в чём разница?</strong>
+          <div class="k">Кратко показывает суть и рекомендации. Подробно — весь отчёт: коды, матрица, портрет, сферы жизни, прогноз.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      © <span id="year"></span> Нумерологический Паспорт • офлайн-продукт • один HTML-файл
+    </div>
+  </div>
+
+  <!-- Export Modal -->
+  <div class="modalOverlay" id="exportModal" role="dialog" aria-modal="true" aria-label="HTML отчёта">
+    <div class="modal">
+      <div class="sectionTitle">
+        <h2 style="margin:0">HTML отчёта</h2>
+        <div class="hint">можно копировать целиком</div>
+      </div>
+
+      <div class="ctaRow" style="margin-top:8px">
+        <button class="btn btnPrimary btnSmall" onclick="copyReportHtml()">Скопировать HTML</button>
+        <button class="btn btnViolet btnSmall" onclick="downloadReportHtml()">Скачать HTML</button>
+        <button class="btn btnGhost btnSmall" onclick="openReportInNewTab()">Открыть отчёт</button>
+        <button class="btn btnGhost btnSmall" onclick="closeExportModal()">Закрыть</button>
+      </div>
+
+      <div style="margin-top:10px">
+        <textarea id="exportTextarea" spellcheck="false"></textarea>
+      </div>
+
+      <div class="mutedBox">
+        Подсказка: сохранённый HTML можно распечатать или открыть на любом устройстве.
+      </div>
+    </div>
+  </div>
+
+<script>
+  // ====== Helpers ======
+  document.getElementById('year').textContent = new Date().getFullYear();
+  function scrollToEl(id){ document.getElementById(id)?.scrollIntoView({behavior:'smooth', block:'start'}); }
+
+  // ====== Numerology tables ======
+  const cyrillicMap = {
+    'а': 1, 'и': 1, 'с': 1, 'ъ': 1,
+    'б': 2, 'й': 2, 'т': 2, 'ы': 2,
+    'в': 3, 'к': 3, 'у': 3, 'ь': 3,
+    'г': 4, 'л': 4, 'ф': 4, 'э': 4,
+    'д': 5, 'м': 5, 'х': 5, 'ю': 5,
+    'е': 6, 'н': 6, 'ц': 6, 'я': 6,
+    'ё': 7, 'о': 7, 'ч': 7,
+    'ж': 8, 'п': 8, 'ш': 8,
+    'з': 9, 'р': 9, 'щ': 9
+  };
+  const latinMap = {
+    'a': 1, 'j': 1, 's': 1,
+    'b': 2, 'k': 2, 't': 2,
+    'c': 3, 'l': 3, 'u': 3,
+    'd': 4, 'm': 4, 'v': 4,
+    'e': 5, 'n': 5, 'w': 5,
+    'f': 6, 'o': 6, 'x': 6,
+    'g': 7, 'p': 7, 'y': 7,
+    'h': 8, 'q': 8, 'z': 8,
+    'i': 9, 'r': 9
+  };
+
+  // Simplified meanings for broad audience (short + full)
+  const meanings = {
+    1: { title:"Лидер", short:"Про самостоятельность и инициативу", text:"Ты лучше всего раскрываешься, когда сам принимаешь решения. Сила — начинать и вести. Важно не давить на людей и слышать обратную связь." },
+    2: { title:"Партнёр", short:"Про чувствительность и взаимодействие", text:"Ты тонко чувствуешь людей и атмосферу. Сила — в дипломатии и поддержке. Важно не растворяться в других и уметь говорить «нет»." },
+    3: { title:"Коммуникатор", short:"Про общение и самовыражение", text:"Ты раскрываешься через слова, идеи и творчество. Сила — в лёгкости и харизме. Важно доводить начатое до конца." },
+    4: { title:"Практик", short:"Про стабильность и порядок", text:"Ты надёжен и умеешь выстраивать систему. Сила — дисциплина и ответственность. Важно быть гибче и не застревать в рутине." },
+    5: { title:"Свобода", short:"Про движение и перемены", text:"Тебе важно разнообразие и ощущение жизни. Сила — адаптивность и смелость. Важно удерживать фокус и не распыляться." },
+    6: { title:"Забота", short:"Про отношения и гармонию", text:"Ты умеешь создавать уют и поддерживать других. Сила — тепло и ответственность. Важно не брать на себя лишнее и не контролировать из заботы." },
+    7: { title:"Аналитик", short:"Про глубину и понимание", text:"Ты склонен размышлять и искать смысл. Сила — в анализе и наблюдательности. Важно не закрываться и делиться тем, что чувствуешь." },
+    8: { title:"Результат", short:"Про деньги и управление", text:"Ты ориентирован на результат и влияние. Сила — управлять ресурсами и доводить до итогов. Важно не уходить в жёсткий контроль." },
+    9: { title:"Смысл", short:"Про ценности и пользу", text:"Тебе важно делать значимое. Сила — широта взгляда и эмпатия. Важно не выгорать, пытаясь «спасти всех»." },
+    11:{ title:"Интуиция", short:"Про чувствительность и идеи", text:"Ты тонко чувствуешь происходящее и людей. Сила — вдохновение и видение. Важно заземляться и переводить идеи в действия." },
+    22:{ title:"Создатель", short:"Про масштаб и реализацию", text:"Ты способен строить большие и полезные проекты. Сила — системное мышление. Важно не бояться масштаба и действовать шагами." },
+    33:{ title:"Наставник", short:"Про поддержку и влияние", text:"Ты влияешь через заботу и пример. Сила — человечность. Важно соблюдать границы и беречь ресурс." }
+  };
+
+  const isMaster = (n) => [11,22,33].includes(n);
+
+  function reduceNumber(num){
+    if (!num || num === 0) return {root: 0, final: 0, isMaster:false};
+    let current = num;
+    let root = num;
+    while (current > 9 && !isMaster(current)) {
+      root = current;
+      let s = 0;
+      for (const ch of String(current)) s += Number(ch);
+      current = s;
+    }
+    return {root, final: current, isMaster: isMaster(current)};
+  }
+
+  function digitsSumFromDate(dateStr){
+    const digits = String(dateStr || "").replace(/\D/g,'');
+    let sum = 0;
+    for (const d of digits) sum += Number(d);
+    return sum;
+  }
+
+  function gematria(str){
+    const clean = String(str||"").toLowerCase().replace(/[^a-zа-яё]/g,'');
+    let sum = 0;
+    for (const ch of clean){
+      if (cyrillicMap[ch]) sum += cyrillicMap[ch];
+      else if (latinMap[ch]) sum += latinMap[ch];
+    }
+    return sum;
+  }
+
+  function safeMeaning(n){
+    return meanings[n] || {title:"", short:"", text:""};
+  }
+
+  function countDigitsInBirthdate(dateStr){
+    const digits = String(dateStr||"").replace(/\D/g,'').split('');
+    const counts = {1:0,2:0,3:0,4:0,5:0,6:0,7:0,8:0,9:0};
+    for (const d of digits){
+      const n = Number(d);
+      if (n >= 1 && n <= 9) counts[n] += 1;
+    }
+    return counts;
+  }
+
+  function strengthLabel(count){
+    if (count === 0) return "не выражено — навык для развития";
+    if (count === 1) return "в норме";
+    if (count === 2) return "сильная сторона";
+    return "очень выражено";
+  }
+
+  function traitByDigit(n){
+    const map = {
+      1: {name:"Воля и характер", plus:"самостоятельность, решительность", shadow:"упрямство, давление"},
+      2: {name:"Чувства и эмпатия", plus:"чуткость, контакт", shadow:"перепады настроения"},
+      3: {name:"Самовыражение", plus:"коммуникация, творчество", shadow:"распыление"},
+      4: {name:"Ресурс и режим", plus:"стабильность, выносливость", shadow:"страх перемен"},
+      5: {name:"Логика", plus:"ясность решений", shadow:"сомнения/перекрут"},
+      6: {name:"Ответственность", plus:"надёжность, забота", shadow:"контроль/перегруз"},
+      7: {name:"Интуиция пути", plus:"чутьё, повороты", shadow:"уход в одиночество"},
+      8: {name:"Деньги и управление", plus:"результат, влияние", shadow:"жёсткость"},
+      9: {name:"Память и мудрость", plus:"обучаемость, глубина", shadow:"идеализм"}
+    };
+    return map[n];
+  }
+
+  function escapeHtml(s){
+    return String(s)
+      .replaceAll('&','&amp;')
+      .replaceAll('<','&lt;')
+      .replaceAll('>','&gt;')
+      .replaceAll('"','&quot;')
+      .replaceAll("'","&#039;");
+  }
+
+  // ====== View mode ======
+  let VIEW_MODE = "full"; // "brief" | "full"
+
+  function setMode(mode){
+    VIEW_MODE = (mode === "brief") ? "brief" : "full";
+    const el = document.getElementById("modeHint");
+    if (el){
+      el.innerHTML = VIEW_MODE === "full"
+        ? `Режим: <strong>Подробно</strong> — полный отчёт со всеми блоками.`
+        : `Режим: <strong>Кратко</strong> — только самое главное (1–2 минуты чтения).`;
+    }
+    applyViewMode();
+  }
+
+  function applyViewMode(){
+    const results = document.getElementById("results");
+    if (!results) return;
+    const fullBlocks = results.querySelectorAll('[data-detail="full"]');
+    fullBlocks.forEach(el => {
+      el.style.display = (VIEW_MODE === "full") ? "block" : "none";
+    });
+  }
+
+  // ====== Calculation ======
+  let LAST_REPORT_HTML = ""; // cached export
+
+  function calculate(){
+    const surname = document.getElementById('surname').value.trim();
+    const name = document.getElementById('name').value.trim();
+    const patronymic = document.getElementById('patronymic').value.trim();
+    const birthCity = document.getElementById('birthCity').value.trim();
+    const birthDate = document.getElementById('birthDate').value;
+
+    if (!surname || !name || !patronymic || !birthCity || !birthDate){
+      alert("Заполни все поля: Фамилия, Имя, Отчество, Город рождения и Дата рождения.");
+      return;
+    }
+
+    // Core numbers
+    const dateSum = digitsSumFromDate(birthDate);
+    const lifePath = reduceNumber(dateSum);
+
+    const surCode = reduceNumber(gematria(surname));
+    const nameCode = reduceNumber(gematria(name));
+    const patCode = reduceNumber(gematria(patronymic));
+
+    const cityCode = reduceNumber(gematria(birthCity));
+
+    const fullName = `${surname} ${name} ${patronymic}`;
+    const fullNameCode = reduceNumber(gematria(fullName));
+
+    const coreRaw = lifePath.final + fullNameCode.final + cityCode.final;
+    const core = reduceNumber(coreRaw);
+
+    // Date layers
+    const [yyyy, mm, dd] = birthDate.split('-').map(x => Number(x));
+    const dayCode = reduceNumber(dd);
+    const monthCode = reduceNumber(mm);
+    const yearCode = reduceNumber(yyyy);
+
+    // Matrix
+    const counts = countDigitsInBirthdate(birthDate);
+
+    const strengths = [];
+    const growth = [];
+    for (let i=1;i<=9;i++){
+      const c = counts[i];
+      const t = traitByDigit(i);
+      if (c >= 2) strengths.push({i,c,t});
+      if (c === 0) growth.push({i,c,t});
+    }
+
+    // Render cards
+    renderSummary(fullName, birthCity, birthDate, core);
+    renderCore(lifePath, fullNameCode, cityCode, core, surCode, nameCode, patCode, dayCode, monthCode, yearCode);
+    renderMatrix(counts);
+    renderPortrait(lifePath, core, surCode, nameCode, patCode, cityCode, strengths, growth);
+    renderLifeAreas(lifePath, core, fullNameCode, cityCode, counts);
+    renderForecast(lifePath, core);
+    renderRecommendations(lifePath, core, strengths, growth);
+
+    const res = document.getElementById('results');
+    res.style.display = 'block';
+    applyViewMode();
+    res.scrollIntoView({behavior:'smooth', block:'start'});
+
+    // Build report HTML cache
+    LAST_REPORT_HTML = buildReportHtmlDocument({
+      viewMode: VIEW_MODE,
+      fullName,
+      birthCity,
+      birthDate,
+      blocks: collectBlocksForExport()
+    });
+  }
+
+  // ====== Render blocks ======
+  function renderSummary(fullName, city, birthDate, core){
+    const m = safeMeaning(core.final);
+    const masterClass = core.isMaster ? "master" : "";
+    const descr = (VIEW_MODE === "full") ? m.text : m.short;
+
+    document.getElementById('summaryCard').innerHTML = `
+      <div class="sectionTitle">
+        <h2 style="margin:0">Паспорт личности</h2>
+        <div class="hint">итоговый ключ</div>
+      </div>
+
+      <div class="row">
+        <div class="k">ФИО</div>
+        <div class="v" style="min-width:auto;text-align:right">${escapeHtml(fullName)}</div>
+      </div>
+      <div class="row">
+        <div class="k">Город рождения</div>
+        <div class="v" style="min-width:auto;text-align:right">${escapeHtml(city)}</div>
+      </div>
+      <div class="row">
+        <div class="k">Дата рождения</div>
+        <div class="v" style="min-width:auto;text-align:right">${escapeHtml(new Date(birthDate).toLocaleDateString('ru-RU'))}</div>
+      </div>
+
+      <div class="row" style="align-items:center">
+        <div>
+          <div class="k">Личное ядро (главная тема)</div>
+          <div style="margin-top:6px;color:var(--muted);font-size:14px">
+            ${m.title ? `<span class="pill"><span class="pDot"></span>${escapeHtml(m.title)}</span>` : ``}
+            ${m.short ? `<span class="pill"><span class="pDot"></span>${escapeHtml(m.short)}</span>` : ``}
+          </div>
+        </div>
+        <div class="bigNumber ${masterClass}">${core.final}</div>
+      </div>
+
+      <div class="mutedBox" style="color:var(--text)">
+        <strong>${escapeHtml(m.title || "Ключ")}</strong><br/>
+        ${escapeHtml(descr || "")}
+        ${VIEW_MODE === "brief" ? `<div style="margin-top:10px;color:var(--muted)">Переключи на «Подробно», чтобы увидеть весь отчёт.</div>` : ``}
+      </div>
+    `;
+  }
+
+  function renderCore(lifePath, fullNameCode, cityCode, core, surCode, nameCode, patCode, dayCode, monthCode, yearCode){
+    const mLP = safeMeaning(lifePath.final);
+    const mFN = safeMeaning(fullNameCode.final);
+    const mCity = safeMeaning(cityCode.final);
+    const mCore = safeMeaning(core.final);
+
+    const pick = (m) => (VIEW_MODE === "full") ? m.text : m.short;
+    const badge = (obj) => obj.isMaster ? "master" : "";
+
+    document.getElementById('coreCard').innerHTML = `
+      <div class="sectionTitle">
+        <h2 style="margin:0">Ключевые коды</h2>
+        <div class="hint">из чего складывается портрет</div>
+      </div>
+
+      <div class="row">
+        <div>
+          <div><strong>🎂 Число жизненного пути</strong></div>
+          <div class="k"><strong>${escapeHtml(mLP.title)}</strong> — ${escapeHtml(pick(mLP) || "")}</div>
+        </div>
+        <div class="v ${badge(lifePath)}">${lifePath.final} <span class="k">(корень ${lifePath.root})</span></div>
+      </div>
+
+      <div class="row">
+        <div>
+          <div><strong>🧾 Код ФИО</strong></div>
+          <div class="k"><strong>${escapeHtml(mFN.title)}</strong> — ${escapeHtml(pick(mFN) || "")}</div>
+          <div style="margin-top:6px">
+            <span class="pill"><span class="pDot"></span>Фамилия: ${surCode.final}</span>
+            <span class="pill"><span class="pDot"></span>Имя: ${nameCode.final}</span>
+            <span class="pill"><span class="pDot"></span>Отчество: ${patCode.final}</span>
+          </div>
+        </div>
+        <div class="v ${badge(fullNameCode)}">${fullNameCode.final}</div>
+      </div>
+
+      <div class="row">
+        <div>
+          <div><strong>🏙️ Код города рождения</strong></div>
+          <div class="k"><strong>${escapeHtml(mCity.title)}</strong> — ${escapeHtml(pick(mCity) || "")}</div>
+        </div>
+        <div class="v ${badge(cityCode)}">${cityCode.final}</div>
+      </div>
+
+      <div class="row" style="border-top:1px dashed rgba(255,255,255,0.18); padding-top:14px;">
+        <div>
+          <div><strong>🔥 Личное ядро</strong></div>
+          <div class="k"><strong>${escapeHtml(mCore.title)}</strong> — ${escapeHtml(pick(mCore) || "")}</div>
+        </div>
+        <div class="v ${badge(core)}" style="font-size:22px">${core.final}</div>
+      </div>
+
+      <div class="mutedBox">
+        Слои даты:
+        <div style="margin-top:6px">
+          <span class="pill"><span class="pDot"></span>День: ${dayCode.final}</span>
+          <span class="pill"><span class="pDot"></span>Месяц: ${monthCode.final}</span>
+          <span class="pill"><span class="pDot"></span>Год: ${yearCode.final}</span>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderMatrix(counts){
+    let cells = "";
+    for (let i=1;i<=9;i++){
+      const c = counts[i];
+      const percent = Math.min(100, c * 33);
+      const t = traitByDigit(i);
+      cells += `
+        <div class="cell" title="${escapeHtml(t.name)}">
+          <div class="n">${i} — ${escapeHtml(t.name)}</div>
+          <div class="count">${c}</div>
+          <div class="k">${strengthLabel(c)} • + ${escapeHtml(t.plus)} • тень: ${escapeHtml(t.shadow)}</div>
+          <div class="barWrap"><div class="bar" style="width:${percent}%"></div></div>
+        </div>
+      `;
+    }
+
+    document.getElementById('matrixCard').innerHTML = `
+      <div class="sectionTitle">
+        <h2 style="margin:0">Матрица даты рождения</h2>
+        <div class="hint">где усилено, а где навык</div>
+      </div>
+      <div class="k">Это подсказка: какие качества сильнее проявлены “по умолчанию”, а какие лучше развивать через практику.</div>
+      <div class="matrix">${cells}</div>
+    `;
+  }
+
+  function renderPortrait(lifePath, core, surCode, nameCode, patCode, cityCode, strengths, growth){
+    const lp = safeMeaning(lifePath.final);
+    const co = safeMeaning(core.final);
+
+    const strengthsList = strengths.length
+      ? `<ul class="list">${strengths
+          .slice(0,6)
+          .map(s => `<li><strong>${s.i} — ${escapeHtml(s.t.name)}</strong>: сильная сторона (${s.c}). Плюс: ${escapeHtml(s.t.plus)}.</li>`)
+          .join('')}</ul>`
+      : `<div class="mutedBox">Профиль ровный: сила раскрывается через режим и последовательность.</div>`;
+
+    const growthList = growth.length
+      ? `<ul class="list">${growth
+          .slice(0,6)
+          .map(g => `<li><strong>${g.i} — ${escapeHtml(g.t.name)}</strong>: зона роста. Начни с маленьких шагов, без давления.</li>`)
+          .join('')}</ul>`
+      : `<div class="mutedBox">Нет “пустых” цифр: профиль гибкий и адаптивный.</div>`;
+
+    document.getElementById('portraitCard').innerHTML = `
+      <div class="sectionTitle">
+        <h2 style="margin:0">Индивидуальный портрет</h2>
+        <div class="hint">как ты проявляешься</div>
+      </div>
+
+      <div class="row">
+        <div>
+          <div><strong>Главная линия (путь)</strong></div>
+          <div class="k"><strong>${escapeHtml(lp.title)}</strong> — ${escapeHtml(lp.text)}</div>
+        </div>
+        <div class="v ${lifePath.isMaster ? "master":""}">${lifePath.final}</div>
+      </div>
+
+      <div class="row">
+        <div>
+          <div><strong>Главный вектор (ядро)</strong></div>
+          <div class="k"><strong>${escapeHtml(co.title)}</strong> — ${escapeHtml(co.text)}</div>
+        </div>
+        <div class="v ${core.isMaster ? "master":""}">${core.final}</div>
+      </div>
+
+      <div class="mutedBox" style="color:var(--text)">
+        <strong>Как складывается проявление:</strong><br/>
+        • Фамилия: <strong>${surCode.final}</strong> — родовая линия и “опора”.<br/>
+        • Имя: <strong>${nameCode.final}</strong> — как действуешь в моменте.<br/>
+        • Отчество: <strong>${patCode.final}</strong> — стиль взаимодействия с системой/людьми.<br/>
+        • Город рождения: <strong>${cityCode.final}</strong> — фоновый темп и условия.
+      </div>
+
+      <div style="margin-top:12px">
+        <div class="sectionTitle" style="margin-bottom:6px">
+          <h3 style="margin:0;font-size:16px">Сильные стороны</h3>
+          <span class="hint">что уже “в ресурсе”</span>
+        </div>
+        ${strengthsList}
+      </div>
+
+      <div style="margin-top:12px">
+        <div class="sectionTitle" style="margin-bottom:6px">
+          <h3 style="margin:0;font-size:16px">Зоны роста</h3>
+          <span class="hint">что полезно прокачать</span>
+        </div>
+        ${growthList}
+      </div>
+    `;
+  }
+
+  function renderLifeAreas(lifePath, core, fullNameCode, cityCode, counts){
+    const lp = safeMeaning(lifePath.final);
+    const co = safeMeaning(core.final);
+    const nn = safeMeaning(fullNameCode.final);
+    const gc = safeMeaning(cityCode.final);
+
+    const career = buildCareerBlock(core.final, lifePath.final);
+    const money  = buildMoneyBlock(core.final, fullNameCode.final);
+    const love   = buildLoveBlock(core.final, lifePath.final);
+    const energy = buildEnergyBlock(core.final, counts);
+
+    document.getElementById('lifeAreasCard').innerHTML = `
+      <div class="sectionTitle">
+        <h2 style="margin:0">Сферы жизни</h2>
+        <div class="hint">работа • деньги • отношения • ресурс</div>
+      </div>
+
+      <div class="mutedBox" style="color:var(--text)">
+        <strong>Ключи:</strong><br/>
+        • Путь: <strong>${lifePath.final}</strong> — ${escapeHtml(lp.title || "")}<br/>
+        • Ядро: <strong>${core.final}</strong> — ${escapeHtml(co.title || "")}<br/>
+        • Имя: <strong>${fullNameCode.final}</strong> — ${escapeHtml(nn.title || "")}<br/>
+        • Город: <strong>${cityCode.final}</strong> — ${escapeHtml(gc.title || "")}
+      </div>
+
+      <div style="margin-top:12px">
+        <div class="sectionTitle" style="margin-bottom:6px">
+          <h3 style="margin:0;font-size:16px">💼 Работа и предназначение</h3>
+          <span class="hint">где проще реализоваться</span>
+        </div>
+        <div class="mutedBox" style="color:var(--text)">${career}</div>
+      </div>
+
+      <div style="margin-top:12px">
+        <div class="sectionTitle" style="margin-bottom:6px">
+          <h3 style="margin:0;font-size:16px">💰 Деньги и стратегия дохода</h3>
+          <span class="hint">как монетизировать сильные стороны</span>
+        </div>
+        <div class="mutedBox" style="color:var(--text)">${money}</div>
+      </div>
+
+      <div style="margin-top:12px">
+        <div class="sectionTitle" style="margin-bottom:6px">
+          <h3 style="margin:0;font-size:16px">❤️ Отношения и коммуникация</h3>
+          <span class="hint">что важно в близости</span>
+        </div>
+        <div class="mutedBox" style="color:var(--text)">${love}</div>
+      </div>
+
+      <div style="margin-top:12px">
+        <div class="sectionTitle" style="margin-bottom:6px">
+          <h3 style="margin:0;font-size:16px">🔋 Ресурс и энергия</h3>
+          <span class="hint">как не выгорать</span>
+        </div>
+        <div class="mutedBox" style="color:var(--text)">${energy}</div>
+      </div>
+    `;
+  }
+
+  function renderForecast(lifePath, core){
+    const today = new Date();
+    const day = today.getDate();
+    const month = today.getMonth() + 1;
+    const year = today.getFullYear();
+
+    const universalDay = reduceNumber(day + month + year);
+    const personalDay = reduceNumber(universalDay.final + lifePath.final);
+
+    const universalMonth = reduceNumber(month + year);
+    const personalMonth = reduceNumber(universalMonth.final + lifePath.final);
+
+    const personalYear = reduceNumber(year + lifePath.final);
+
+    const uDayMeaning = safeMeaning(universalDay.final);
+    const pDayMeaning = safeMeaning(personalDay.final);
+
+    document.getElementById('forecastCard').innerHTML = `
+      <div class="sectionTitle">
+        <h2 style="margin:0">Прогноз и циклы</h2>
+        <div class="hint">день • месяц • год</div>
+      </div>
+
+      <div class="mutedBox" style="color:var(--text)">
+        <strong>Сегодня:</strong> ${today.toLocaleDateString('ru-RU')}
+      </div>
+
+      <div class="row">
+        <div>
+          <strong>🌍 Общая энергия дня</strong>
+          <div class="k"><strong>${escapeHtml(uDayMeaning.title)}</strong> — ${escapeHtml(uDayMeaning.short || uDayMeaning.text || "")}</div>
+        </div>
+        <div class="v">${universalDay.final}</div>
+      </div>
+
+      <div class="row">
+        <div>
+          <strong>⚡ Твой личный день</strong>
+          <div class="k"><strong>${escapeHtml(pDayMeaning.title)}</strong> — ${escapeHtml(pDayMeaning.short || pDayMeaning.text || "")}</div>
+        </div>
+        <div class="v ${personalDay.isMaster ? "master" : ""}">${personalDay.final}</div>
+      </div>
+
+      <div class="mutedBox" style="color:var(--text)">
+        <strong>Личный месяц:</strong> ${personalMonth.final}<br/>
+        <strong>Личный год:</strong> ${personalYear.final}<br/>
+        <div style="margin-top:8px;color:var(--muted)">
+          Совет: действуй через качества числа <strong>${personalDay.final}</strong>.
+          ${personalDay.final === core.final ? " Сегодня сильный резонанс с твоим ядром — хороший день для важных решений." : ""}
+        </div>
+      </div>
+    `;
+  }
+
+  function renderRecommendations(lifePath, core, strengths, growth){
+    const lp = safeMeaning(lifePath.final);
+    const co = safeMeaning(core.final);
+
+    const tips = [];
+
+    // Core
+    if ([1,8,4,22].includes(core.final)) tips.push("Фокус на цели: выбери 1–2 направления и измеримый результат (план на 30 дней).");
+    if ([2,6,33].includes(core.final)) tips.push("Границы: помогать — да, “тащить” чужие задачи — нет. Планируй отдых.");
+    if ([3,5].includes(core.final)) tips.push("Сила — в коммуникации и гибкости. Успех — через завершение: меньше стартов, больше финишей.");
+    if ([7,9,11].includes(core.final)) tips.push("Береги нервную систему: тишина/сон/прогулки. Идеи переводить в конкретные шаги.");
+
+    // Growth zones
+    const g = growth.slice(0,4).map(x => x.i);
+    if (g.includes(1)) tips.push("Прокачка воли: ежедневно принимать 1 маленькое решение самостоятельно.");
+    if (g.includes(4)) tips.push("Прокачка ресурса: сон + режим. Начни с 2 стабильных привычек.");
+    if (g.includes(8)) tips.push("Прокачка денег: учёт расходов + одна финансовая цель на месяц.");
+    if (g.includes(3)) tips.push("Прокачка выражения: говорить/писать регулярно (дневник, заметки, контент).");
+    if (g.includes(5)) tips.push("Прокачка логики: «факты → варианты → выбор» в решениях.");
+
+    // Strengths
+    const s = strengths.slice(0,3).map(x => x.i);
+    if (s.includes(1)) tips.push("Сила лидера: бери роль ведущего в проекте, где есть цель и ответственность.");
+    if (s.includes(3)) tips.push("Сила коммуникации: проявляйся через слово, идеи, презентации, контент.");
+    if (s.includes(8)) tips.push("Сила результата: ставь KPI и строй систему — это твой ускоритель.");
+    if (s.includes(7)) tips.push("Сила аналитики: развивай экспертизу и стратегическое мышление.");
+
+    const uniqueTips = [...new Set(tips)].slice(0,10);
+
+    document.getElementById('recommendCard').innerHTML = `
+      <div class="sectionTitle">
+        <h2 style="margin:0">Рекомендации</h2>
+        <div class="hint">что делать дальше</div>
+      </div>
+
+      <div class="mutedBox" style="color:var(--text)">
+        <strong>Твой вектор:</strong> соединить <strong>${escapeHtml(lp.title || "Путь")}</strong> и <strong>${escapeHtml(co.title || "Ядро")}</strong>.
+        <div style="margin-top:6px;color:var(--muted)">
+          Формула: «делаю по-своему → довожу до результата → сохраняю баланс».
+        </div>
+      </div>
+
+      <ul class="list">
+        ${uniqueTips.map(t => `<li>${escapeHtml(t)}</li>`).join('')}
+      </ul>
+
+      ${(lifePath.isMaster || core.isMaster) ? `
+        <div class="warn">
+          ⚠️ Есть мастер-число: потенциал высокий, но чувствительность тоже выше.
+          Лучшее правило: <strong>заземление</strong> (режим, тело, завершение задач) и <strong>границы</strong>.
+        </div>
+      ` : ``}
+    `;
+  }
+
+  // ====== Life areas text builders ======
+  function buildCareerBlock(core, lifePath){
+    const lines = [];
+    if ([1,4,8,22].includes(core)) {
+      lines.push("Вектор — <strong>управление, структура, результат</strong>. Подойдут: руководитель, продакт/проект, предпринимательство, аналитика процессов, финансы.");
+      lines.push("Лучше всего получается, когда есть цель, сроки и ответственность за итог.");
+    } else if ([2,6,33].includes(core)) {
+      lines.push("Вектор — <strong>люди, сервис, гармония</strong>. Подойдут: HR, обучение, психология/коучинг, медицина/уход, клиентский сервис, комьюнити.");
+      lines.push("Важно: границы и дозировка помощи, чтобы не перегружаться.");
+    } else if ([3,5].includes(core)) {
+      lines.push("Вектор — <strong>коммуникация, творчество, движение</strong>. Подойдут: маркетинг, продажи, медиа, контент, ивенты, переговоры.");
+      lines.push("Ключ успеха — завершение: один проект до конца, потом следующий.");
+    } else if ([7,9,11].includes(core)) {
+      lines.push("Вектор — <strong>глубина, смысл, экспертиза</strong>. Подойдут: исследования, преподавание, стратегия, консалтинг, аналитика.");
+      lines.push("Важно переводить идеи в план действий, а не держать в голове.");
+    } else {
+      lines.push("Профиль гибкий: пробуй роли через небольшие проекты и выбирай то, где есть удовольствие и рост.");
+    }
+
+    if (lifePath === 5) lines.push("Путь 5 усиливает потребность в свободе: выбирай работу с разнообразием и движением.");
+    if (lifePath === 4) lines.push("Путь 4 усиливает системность: сильны регламенты, процессы, стабильные проекты.");
+    if (lifePath === 9) lines.push("Путь 9 усиливает смысл: важно ощущать пользу людям/миру.");
+
+    return lines.join("<br/>");
+  }
+
+  function buildMoneyBlock(core, nameCode){
+    const lines = [];
+    if ([8,22].includes(core)) {
+      lines.push("Деньги приходят через <strong>управление и масштаб</strong>: система, команда, процессы.");
+      lines.push("Правило: считать, планировать, инвестировать в долгую.");
+    } else if ([1,4].includes(core)) {
+      lines.push("Деньги приходят через <strong>инициативу + дисциплину</strong>: ты зарабатываешь, когда ведёшь и строишь структуру.");
+      lines.push("Подходит стратегия: стабильные источники + рост компетенции.");
+    } else if ([3,5].includes(core)) {
+      lines.push("Деньги приходят через <strong>коммуникации и скорость</strong>: продажи, связи, публичность.");
+      lines.push("Риск: импульсивные траты. Помогает правило: «сначала резерв, потом удовольствие».");
+    } else if ([2,6,33].includes(core)) {
+      lines.push("Деньги приходят через <strong>ценность для людей</strong>: сервис, забота, эстетика, обучение.");
+      lines.push("Важно не занижать цену: фиксируй условия заранее.");
+    } else if ([7,9,11].includes(core)) {
+      lines.push("Деньги приходят через <strong>экспертизу</strong>: консультации, обучение, аналитика.");
+      lines.push("Стабильность растёт, когда упаковываешь знания в продукт.");
+    }
+
+    if ([8,1,4].includes(nameCode)) lines.push("Код имени усиливает деловой стиль: монетизация через результат и чёткие обещания.");
+    if ([3,5].includes(nameCode)) lines.push("Код имени усиливает коммуникации: монетизация через публичность и предложения.");
+    if ([2,6,9].includes(nameCode)) lines.push("Код имени усиливает доверие: монетизация через репутацию и качество сервиса.");
+
+    return lines.join("<br/>");
+  }
+
+  function buildLoveBlock(core, lifePath){
+    const lines = [];
+    if ([2,6,33].includes(core)) {
+      lines.push("Важны <strong>тепло, поддержка, безопасность</strong>.");
+      lines.push("Тень: растворяться в партнёре. Практика: границы и своё время.");
+    } else if ([1,8,22].includes(core)) {
+      lines.push("Важны <strong>уважение и равенство силы</strong>.");
+      lines.push("Тень: контроль/соревнование. Практика: договариваться о правилах, а не давить.");
+    } else if ([3,5].includes(core)) {
+      lines.push("Важны <strong>лёгкость, общение, впечатления</strong>.");
+      lines.push("Тень: рутина снижает интерес. Практика: совместные планы и новизна.");
+    } else if ([7,9,11].includes(core)) {
+      lines.push("Важны <strong>смысл, глубина, личное пространство</strong>.");
+      lines.push("Тень: закрытость. Практика: говорить о чувствах словами.");
+    }
+
+    if (lifePath === 2) lines.push("Путь 2 усиливает потребность в партнёрстве: выбирай человека, который уважает чувствительность.");
+    if (lifePath === 5) lines.push("Путь 5 усиливает свободу: договоритесь о границах заранее.");
+    if (lifePath === 4) lines.push("Путь 4 усиливает стабильность: ценишь надёжность и предсказуемость.");
+
+    return lines.join("<br/>");
+  }
+
+  function buildEnergyBlock(core, counts){
+    const lines = [];
+    if ([7,9,11].includes(core)) {
+      lines.push("Ресурс держится на <strong>тишине, сне, информационной гигиене</strong>.");
+    } else if ([1,8,22].includes(core)) {
+      lines.push("Ресурс держится на <strong>цели и движении</strong>. Выгорание — когда контроль без отдыха.");
+    } else if ([2,6,33].includes(core)) {
+      lines.push("Ресурс держится на <strong>эмоциональной гигиене</strong>. Выгорание — когда много чужих проблем.");
+    } else if ([3,5].includes(core)) {
+      lines.push("Ресурс держится на <strong>разнообразии</strong>. Выгорание — от рутины.");
+    } else if ([4].includes(core)) {
+      lines.push("Ресурс держится на <strong>режиме</strong>. Выгорание — от хаоса и недосыпа.");
+    }
+
+    const c4 = counts[4] ?? 0;
+    const c2 = counts[2] ?? 0;
+
+    if (c4 === 0) lines.push("Матрица: <strong>4 отсутствует</strong> — береги тело: сон, вода, регулярность.");
+    if (c4 >= 2) lines.push("Матрица: <strong>сильная 4</strong> — ресурс хороший, но не закапывайся в рутину.");
+    if (c2 === 0) lines.push("Матрица: <strong>2 отсутствует</strong> — эмоции лучше проговаривать, чтобы не копить напряжение.");
+    if (c2 >= 2) lines.push("Матрица: <strong>сильная 2</strong> — чувствительность высокая: фильтруй окружение и новости.");
+
+    return lines.join("<br/>");
+  }
+
+  // ====== Export: collect blocks and build report ======
+  function collectBlocksForExport(){
+    const blocks = [];
+    const results = document.getElementById('results');
+    if (!results) return blocks;
+
+    const cards = [
+      {id:'summaryCard', title:'Паспорт личности'},
+      {id:'coreCard', title:'Ключевые коды', detail:'full'},
+      {id:'matrixCard', title:'Матрица даты рождения', detail:'full'},
+      {id:'portraitCard', title:'Индивидуальный портрет', detail:'full'},
+      {id:'lifeAreasCard', title:'Сферы жизни', detail:'full'},
+      {id:'forecastCard', title:'Прогноз и циклы', detail:'full'},
+      {id:'recommendCard', title:'Рекомендации'}
+    ];
+
+    for (const c of cards){
+      if (c.detail === 'full' && VIEW_MODE !== 'full') continue;
+      const el = document.getElementById(c.id);
+      if (!el) continue;
+      blocks.push({ id: c.id, title: c.title, html: el.innerHTML });
+    }
+    return blocks;
+  }
+
+  function buildReportHtmlDocument({viewMode, fullName, birthCity, birthDate, blocks}){
+    const safeDate = new Date(birthDate).toLocaleDateString('ru-RU');
+    const now = new Date().toLocaleString('ru-RU');
+
+    const reportCss = `
+      :root{
+        --bg:#0b0b12; --card:#141427; --text:#e9e9f2; --muted:#b9b9cc;
+        --primary:#7c3aed; --accent:#fbbf24; --danger:#fb7185; --border: rgba(255,255,255,0.10);
+      }
+      *{box-sizing:border-box}
+      body{
+        margin:0; padding:22px;
+        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+        color:var(--text); background: var(--bg); line-height:1.6;
+      }
+      .wrap{max-width:980px;margin:0 auto}
+      .top{
+        display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
+        padding:12px 0 18px; border-bottom:1px solid rgba(255,255,255,0.10); margin-bottom:14px;
+      }
+      h1{margin:0;font-size:24px}
+      .meta{color:var(--muted); font-size:13px}
+      .card{
+        background: linear-gradient(180deg, rgba(255,255,255,0.03), transparent 55%), var(--card);
+        border:1px solid var(--border);
+        border-radius:16px;
+        padding:16px;
+        margin:12px 0;
+      }
+      .footer{
+        margin-top:18px;
+        color:var(--muted);
+        font-size:12px;
+        text-align:center;
+        padding:10px 0;
+        border-top:1px solid rgba(255,255,255,0.10);
+      }
+      /* print */
+      @media print{
+        body{background:#fff;color:#111}
+        .card{background:#fff;border:1px solid #ddd}
+        .meta,.footer{color:#444}
+      }
+    `;
+
+    const bodyCards = blocks.map(b => `
+      <div class="card">
+        ${b.html}
+      </div>
+    `).join('\n');
+
+    const disclaimer = `
+      <div class="card">
+        <div style="color:var(--muted);font-size:13px">
+          Режим отчёта: <strong>${viewMode === 'full' ? 'Подробно' : 'Кратко'}</strong><br/>
+          Примечание: этот отчёт — инструмент самопонимания и символическая модель.
+        </div>
+      </div>
+    `;
+
+    return `<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Нумерологический Паспорт — Отчёт</title>
+  <style>${reportCss}</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <div>
+        <h1>🔮 Нумерологический Паспорт — Отчёт</h1>
+        <div class="meta">Сформировано: ${escapeHtml(now)}</div>
+      </div>
+      <div class="meta" style="text-align:right">
+        <div><strong>${escapeHtml(fullName)}</strong></div>
+        <div>${escapeHtml(birthCity)} • ${escapeHtml(safeDate)}</div>
+      </div>
+    </div>
+
+    ${bodyCards}
+    ${disclaimer}
+
+    <div class="footer">
+      Сгенерировано локально в браузере • файл можно распечатать или отправить
+    </div>
+  </div>
+</body>
+</html>`;
+  }
+
+  // ====== Export actions ======
+  function openExportModal(){
+    if (!LAST_REPORT_HTML){
+      alert("Сначала сделай расчёт, чтобы сформировать отчёт.");
+      return;
+    }
+    const modal = document.getElementById('exportModal');
+    const ta = document.getElementById('exportTextarea');
+    ta.value = LAST_REPORT_HTML;
+    modal.style.display = 'flex';
+  }
+  function closeExportModal(){
+    document.getElementById('exportModal').style.display = 'none';
+  }
+
+  function copyReportHtml(){
+    const ta = document.getElementById('exportTextarea');
+    if (!ta.value) return;
+    ta.select();
+    ta.setSelectionRange(0, ta.value.length);
+    try{
+      document.execCommand('copy');
+      alert("HTML отчёта скопирован.");
+    } catch(e){
+      navigator.clipboard?.writeText(ta.value);
+      alert("HTML отчёта скопирован.");
+    }
+  }
+
+  function downloadReportHtml(){
+    if (!LAST_REPORT_HTML){
+      alert("Сначала сделай расчёт, чтобы сформировать отчёт.");
+      return;
+    }
+    const blob = new Blob([LAST_REPORT_HTML], {type:"text/html;charset=utf-8"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    const ts = new Date();
+    const pad = (n)=> String(n).padStart(2,'0');
+    const fileName = `passport_report_${ts.getFullYear()}-${pad(ts.getMonth()+1)}-${pad(ts.getDate())}.html`;
+    a.href = url;
+    a.download = fileName;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url), 1000);
+  }
+
+  function openReportInNewTab(){
+    if (!LAST_REPORT_HTML){
+      alert("Сначала сделай расчёт, чтобы сформировать отчёт.");
+      return;
+    }
+    const blob = new Blob([LAST_REPORT_HTML], {type:"text/html;charset=utf-8"});
+    const url = URL.createObjectURL(blob);
+    window.open(url, "_blank", "noopener,noreferrer");
+    setTimeout(()=>URL.revokeObjectURL(url), 2000);
+  }
+
+  // Close modal on overlay click
+  document.getElementById('exportModal').addEventListener('click', (e)=>{
+    if (e.target.id === 'exportModal') closeExportModal();
+  });
+</script>
+</body>
+</html>
