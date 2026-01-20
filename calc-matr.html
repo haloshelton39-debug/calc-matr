@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Нумерологический паспорт личности — расчёт по дате рождения и матрица судьбы</title>
-  <meta name="description" content="Нумерологический паспорт личности онлайн: быстрый расчёт по дате рождения, ФИО и городу рождения. Получите матрицу судьбы, ключ личности, прогноз и рекомендации в удобном HTML-отчёте.">
+  <meta name="description" content="Нумерологический паспорт личности онлайн: расчёт по дате рождения, ФИО, городу рождения, текущей фамилии и городу проживания. Матрица судьбы, ключ личности, прогноз и рекомендации.">
   <style>
     :root{
       --bg:#0b0b12;
@@ -222,38 +222,6 @@
       font-size:14px;
     }
 
-    /* Modal for HTML export */
-    .modalOverlay{
-      position:fixed; inset:0; z-index:200;
-      background: rgba(0,0,0,0.65);
-      display:none;
-      align-items:center; justify-content:center;
-      padding:18px;
-    }
-    .modal{
-      width:min(980px, 100%);
-      max-height: 86vh;
-      overflow:auto;
-      border-radius:18px;
-      border:1px solid rgba(255,255,255,0.10);
-      background: rgba(20,20,39,0.92);
-      backdrop-filter: blur(10px);
-      box-shadow: 0 20px 60px rgba(0,0,0,0.55);
-      padding:14px;
-    }
-    textarea{
-      width:100%;
-      min-height: 320px;
-      resize: vertical;
-      background: rgba(255,255,255,0.04);
-      border:1px solid rgba(255,255,255,0.10);
-      color: var(--text);
-      border-radius:14px;
-      padding:12px;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-      font-size:12px;
-      outline:none;
-    }
     .footer{
       padding:18px 0 34px;
       color: var(--muted);
@@ -294,7 +262,7 @@
         <div class="badges">
           <span class="badge"><span class="dot"></span>100% локально в браузере</span>
           <span class="badge"><span class="dot"></span>без регистрации</span>
-          <span class="badge"><span class="dot"></span>можно скачать HTML-отчёт</span>
+          <span class="badge"><span class="dot"></span>учитывает смену фамилии и переезд</span>
         </div>
 
         <div class="ctaRow">
@@ -324,8 +292,8 @@
             <p>Коды, матрица судьбы, портрет, сферы жизни, прогноз и рекомендации.</p>
           </div>
           <div class="feat">
-            <h3>Экспорт в HTML</h3>
-            <p>Собираем весь результат в один HTML-файл — удобно сохранить, отправить, распечатать.</p>
+            <h3>Текущий контекст</h3>
+            <p>Смена фамилии и переезд показывают, как меняется текущий фон и стиль проявления.</p>
           </div>
         </div>
       </div>
@@ -350,9 +318,17 @@
           <h3>3) Город рождения</h3>
           <p>Добавляет фон и среду: темп, возможности и влияние места на развитие.</p>
         </div>
+        <div class="feat">
+          <h3>4) Смена фамилии</h3>
+          <p>Показывает текущий социальный образ и как трансформируется стиль действий.</p>
+        </div>
+        <div class="feat">
+          <h3>5) Переезд</h3>
+          <p>Показывает, как новое место влияет на темп, возможности и ресурс.</p>
+        </div>
       </div>
       <div class="mutedBox">
-        ✅ Никаких данных не отправляется. Всё считается на твоём устройстве.
+        ✅ Никаких данных не отправляется. Всё считается на твоём устройстве. Дополнительные поля — опциональны.
       </div>
     </div>
 
@@ -361,7 +337,7 @@
       <div class="card">
         <div class="sectionTitle">
           <h2 style="margin:0">Онлайн калькулятор нумерологии</h2>
-          <div class="hint">5 полей — и готовый нумерологический паспорт</div>
+          <div class="hint">7 полей — и готовый нумерологический паспорт</div>
         </div>
 
         <div class="formGrid">
@@ -380,6 +356,14 @@
           <div>
             <label>Город рождения (официально)</label>
             <input id="birthCity" type="text" placeholder="Москва">
+          </div>
+          <div>
+            <label>Фамилия после смены (если менялась)</label>
+            <input id="currentSurname" type="text" placeholder="Смирнова">
+          </div>
+          <div>
+            <label>Город проживания после переезда (если есть)</label>
+            <input id="currentCity" type="text" placeholder="Санкт-Петербург">
           </div>
           <div>
             <label>Дата рождения</label>
@@ -409,23 +393,6 @@
 
         <div class="card" id="recommendCard"></div>
 
-        <div class="card">
-          <div class="sectionTitle">
-            <h2 style="margin:0">Экспорт результата</h2>
-            <div class="hint">весь отчёт в HTML</div>
-          </div>
-          <div class="k">
-            Нажми кнопку — и мы соберём весь результат в <strong>отдельную HTML-страницу</strong> (со стилями), которую можно сохранить, отправить или распечатать.
-          </div>
-          <div class="ctaRow">
-            <button class="btn btnPrimary btnSmall" onclick="openExportModal()">Показать HTML отчёта</button>
-            <button class="btn btnViolet btnSmall" onclick="downloadReportHtml()">Скачать HTML</button>
-            <button class="btn btnGhost btnSmall" onclick="openReportInNewTab()">Открыть отчёт</button>
-          </div>
-          <div class="mutedBox">
-            ⚡ Экспорт берёт именно то, что рассчитано сейчас (и учитывает режим: кратко/подробно).
-          </div>
-        </div>
       </div>
     </div>
 
@@ -443,12 +410,6 @@
       </div>
       <div class="row">
         <div>
-          <strong>Можно сохранить результат?</strong>
-          <div class="k">Да. Нажми «Скачать HTML» — это будет полноценный файл с отчётом и матрицей судьбы.</div>
-        </div>
-      </div>
-      <div class="row">
-        <div>
           <strong>Кратко / Подробно — в чём разница?</strong>
           <div class="k">Кратко показывает суть и рекомендации. Подробно — весь отчёт: коды, матрица судьбы, портрет, сферы жизни, прогноз.</div>
         </div>
@@ -456,32 +417,7 @@
     </div>
 
     <div class="footer">
-      © <span id="year"></span> Нумерологический Паспорт • офлайн-продукт • один HTML-файл
-    </div>
-  </div>
-
-  <!-- Export Modal -->
-  <div class="modalOverlay" id="exportModal" role="dialog" aria-modal="true" aria-label="HTML отчёта">
-    <div class="modal">
-      <div class="sectionTitle">
-        <h2 style="margin:0">HTML отчёта</h2>
-        <div class="hint">можно копировать целиком</div>
-      </div>
-
-      <div class="ctaRow" style="margin-top:8px">
-        <button class="btn btnPrimary btnSmall" onclick="copyReportHtml()">Скопировать HTML</button>
-        <button class="btn btnViolet btnSmall" onclick="downloadReportHtml()">Скачать HTML</button>
-        <button class="btn btnGhost btnSmall" onclick="openReportInNewTab()">Открыть отчёт</button>
-        <button class="btn btnGhost btnSmall" onclick="closeExportModal()">Закрыть</button>
-      </div>
-
-      <div style="margin-top:10px">
-        <textarea id="exportTextarea" spellcheck="false"></textarea>
-      </div>
-
-      <div class="mutedBox">
-        Подсказка: сохранённый HTML можно распечатать или открыть на любом устройстве.
-      </div>
+      © <span id="year"></span> Нумерологический Паспорт • офлайн-продукт • работает в браузере
     </div>
   </div>
 
@@ -635,13 +571,13 @@
   }
 
   // ====== Calculation ======
-  let LAST_REPORT_HTML = ""; // cached export
-
   function calculate(){
     const surname = document.getElementById('surname').value.trim();
     const name = document.getElementById('name').value.trim();
     const patronymic = document.getElementById('patronymic').value.trim();
     const birthCity = document.getElementById('birthCity').value.trim();
+    const currentSurname = document.getElementById('currentSurname').value.trim();
+    const currentCity = document.getElementById('currentCity').value.trim();
     const birthDate = document.getElementById('birthDate').value;
 
     if (!surname || !name || !patronymic || !birthCity || !birthDate){
@@ -658,12 +594,18 @@
     const patCode = reduceNumber(gematria(patronymic));
 
     const cityCode = reduceNumber(gematria(birthCity));
+    const currentSurnameCode = currentSurname ? reduceNumber(gematria(currentSurname)) : null;
+    const currentCityCode = currentCity ? reduceNumber(gematria(currentCity)) : null;
 
     const fullName = `${surname} ${name} ${patronymic}`;
     const fullNameCode = reduceNumber(gematria(fullName));
 
     const coreRaw = lifePath.final + fullNameCode.final + cityCode.final;
     const core = reduceNumber(coreRaw);
+    const currentContextRaw = core.final
+      + (currentSurnameCode ? currentSurnameCode.final : 0)
+      + (currentCityCode ? currentCityCode.final : 0);
+    const currentContext = (currentSurnameCode || currentCityCode) ? reduceNumber(currentContextRaw) : null;
 
     // Date layers
     const [yyyy, mm, dd] = birthDate.split('-').map(x => Number(x));
@@ -690,6 +632,11 @@
       lifePath,
       fullNameCode,
       cityCode,
+      currentSurname,
+      currentCity,
+      currentSurnameCode,
+      currentCityCode,
+      currentContext,
       core,
       surCode,
       nameCode,
@@ -703,30 +650,32 @@
     };
 
     renderFromCache();
-
     const res = document.getElementById('results');
     res.style.display = 'block';
     applyViewMode();
     res.scrollIntoView({behavior:'smooth', block:'start'});
 
-    // Build report HTML cache
-    LAST_REPORT_HTML = buildReportHtmlDocument({
-      viewMode: VIEW_MODE,
-      fullName,
-      birthCity,
-      birthDate,
-      blocks: collectBlocksForExport()
-    });
   }
 
   function renderFromCache(){
     if (!LAST_CALC) return;
 
-    renderSummary(LAST_CALC.fullName, LAST_CALC.birthCity, LAST_CALC.birthDate, LAST_CALC.core);
+    renderSummary(
+      LAST_CALC.fullName,
+      LAST_CALC.birthCity,
+      LAST_CALC.birthDate,
+      LAST_CALC.core,
+      LAST_CALC.currentSurname,
+      LAST_CALC.currentCity,
+      LAST_CALC.currentContext
+    );
     renderCore(
       LAST_CALC.lifePath,
       LAST_CALC.fullNameCode,
       LAST_CALC.cityCode,
+      LAST_CALC.currentSurnameCode,
+      LAST_CALC.currentCityCode,
+      LAST_CALC.currentContext,
       LAST_CALC.core,
       LAST_CALC.surCode,
       LAST_CALC.nameCode,
@@ -743,6 +692,8 @@
       LAST_CALC.nameCode,
       LAST_CALC.patCode,
       LAST_CALC.cityCode,
+      LAST_CALC.currentSurnameCode,
+      LAST_CALC.currentCityCode,
       LAST_CALC.strengths,
       LAST_CALC.growth
     );
@@ -751,6 +702,9 @@
       LAST_CALC.core,
       LAST_CALC.fullNameCode,
       LAST_CALC.cityCode,
+      LAST_CALC.currentSurnameCode,
+      LAST_CALC.currentCityCode,
+      LAST_CALC.currentContext,
       LAST_CALC.counts
     );
     renderForecast(LAST_CALC.lifePath, LAST_CALC.core);
@@ -761,21 +715,39 @@
       LAST_CALC.growth
     );
     applyViewMode();
-
-    LAST_REPORT_HTML = buildReportHtmlDocument({
-      viewMode: VIEW_MODE,
-      fullName: LAST_CALC.fullName,
-      birthCity: LAST_CALC.birthCity,
-      birthDate: LAST_CALC.birthDate,
-      blocks: collectBlocksForExport()
-    });
   }
 
   // ====== Render blocks ======
-  function renderSummary(fullName, city, birthDate, core){
+  function renderSummary(fullName, city, birthDate, core, currentSurname, currentCity, currentContext){
     const m = safeMeaning(core.final);
+    const mc = currentContext ? safeMeaning(currentContext.final) : null;
     const masterClass = core.isMaster ? "master" : "";
     const descr = (VIEW_MODE === "full") ? m.text : m.short;
+
+    const currentRows = `
+      ${currentSurname ? `
+      <div class="row">
+        <div class="k">Фамилия сейчас</div>
+        <div class="v" style="min-width:auto;text-align:right">${escapeHtml(currentSurname)}</div>
+      </div>` : ``}
+      ${currentCity ? `
+      <div class="row">
+        <div class="k">Город проживания</div>
+        <div class="v" style="min-width:auto;text-align:right">${escapeHtml(currentCity)}</div>
+      </div>` : ``}
+    `;
+
+    const currentContextRow = currentContext ? `
+      <div class="row" style="align-items:center">
+        <div>
+          <div class="k">Актуальный фокус (с учётом смены/переезда)</div>
+          <div style="margin-top:6px;color:var(--muted);font-size:14px">
+            ${mc?.title ? `<span class="pill"><span class="pDot"></span>${escapeHtml(mc.title)}</span>` : ``}
+            ${mc?.short ? `<span class="pill"><span class="pDot"></span>${escapeHtml(mc.short)}</span>` : ``}
+          </div>
+        </div>
+        <div class="bigNumber ${currentContext.isMaster ? "master" : ""}">${currentContext.final}</div>
+      </div>` : ``;
 
     document.getElementById('summaryCard').innerHTML = `
       <div class="sectionTitle">
@@ -791,6 +763,7 @@
         <div class="k">Город рождения</div>
         <div class="v" style="min-width:auto;text-align:right">${escapeHtml(city)}</div>
       </div>
+      ${currentRows}
       <div class="row">
         <div class="k">Дата рождения</div>
         <div class="v" style="min-width:auto;text-align:right">${escapeHtml(new Date(birthDate).toLocaleDateString('ru-RU'))}</div>
@@ -806,6 +779,7 @@
         </div>
         <div class="bigNumber ${masterClass}">${core.final}</div>
       </div>
+      ${currentContextRow}
 
       <div class="mutedBox" style="color:var(--text)">
         <strong>${escapeHtml(m.title || "Ключ")}</strong><br/>
@@ -815,14 +789,32 @@
     `;
   }
 
-  function renderCore(lifePath, fullNameCode, cityCode, core, surCode, nameCode, patCode, dayCode, monthCode, yearCode){
+  function renderCore(lifePath, fullNameCode, cityCode, currentSurnameCode, currentCityCode, currentContext, core, surCode, nameCode, patCode, dayCode, monthCode, yearCode){
     const mLP = safeMeaning(lifePath.final);
     const mFN = safeMeaning(fullNameCode.final);
     const mCity = safeMeaning(cityCode.final);
+    const mCurrent = currentContext ? safeMeaning(currentContext.final) : null;
     const mCore = safeMeaning(core.final);
 
     const pick = (m) => (VIEW_MODE === "full") ? m.text : m.short;
     const badge = (obj) => obj.isMaster ? "master" : "";
+
+    const currentBlock = (currentSurnameCode || currentCityCode) ? `
+      <div class="row">
+        <div>
+          <div><strong>🔄 Текущие изменения</strong></div>
+          <div class="k">
+            ${currentContext ? `<strong>${escapeHtml(mCurrent.title)}</strong> — ${escapeHtml(pick(mCurrent) || "")}<br/>` : ``}
+            Смена фамилии и/или переезд показывают, как меняется текущий стиль и фон.
+          </div>
+          <div style="margin-top:6px">
+            ${currentSurnameCode ? `<span class="pill"><span class="pDot"></span>Фамилия сейчас: ${currentSurnameCode.final}</span>` : ``}
+            ${currentCityCode ? `<span class="pill"><span class="pDot"></span>Город проживания: ${currentCityCode.final}</span>` : ``}
+          </div>
+        </div>
+        ${currentContext ? `<div class="v ${badge(currentContext)}">${currentContext.final}</div>` : ``}
+      </div>
+    ` : ``;
 
     document.getElementById('coreCard').innerHTML = `
       <div class="sectionTitle">
@@ -858,6 +850,7 @@
         </div>
         <div class="v ${badge(cityCode)}">${cityCode.final}</div>
       </div>
+      ${currentBlock}
 
       <div class="row" style="border-top:1px dashed rgba(255,255,255,0.18); padding-top:14px;">
         <div>
@@ -904,7 +897,7 @@
     `;
   }
 
-  function renderPortrait(lifePath, core, surCode, nameCode, patCode, cityCode, strengths, growth){
+  function renderPortrait(lifePath, core, surCode, nameCode, patCode, cityCode, currentSurnameCode, currentCityCode, strengths, growth){
     const lp = safeMeaning(lifePath.final);
     const co = safeMeaning(core.final);
 
@@ -950,6 +943,8 @@
         • Имя: <strong>${nameCode.final}</strong> — как действуешь в моменте.<br/>
         • Отчество: <strong>${patCode.final}</strong> — стиль взаимодействия с системой/людьми.<br/>
         • Город рождения: <strong>${cityCode.final}</strong> — фоновый темп и условия.
+        ${currentSurnameCode ? `<br/>• Фамилия сейчас: <strong>${currentSurnameCode.final}</strong> — текущий социальный образ и роль.` : ``}
+        ${currentCityCode ? `<br/>• Город проживания: <strong>${currentCityCode.final}</strong> — как изменился темп и ресурс.` : ``}
       </div>
 
       <div style="margin-top:12px">
@@ -970,11 +965,12 @@
     `;
   }
 
-  function renderLifeAreas(lifePath, core, fullNameCode, cityCode, counts){
+  function renderLifeAreas(lifePath, core, fullNameCode, cityCode, currentSurnameCode, currentCityCode, currentContext, counts){
     const lp = safeMeaning(lifePath.final);
     const co = safeMeaning(core.final);
     const nn = safeMeaning(fullNameCode.final);
     const gc = safeMeaning(cityCode.final);
+    const cc = currentContext ? safeMeaning(currentContext.final) : null;
 
     const career = buildCareerBlock(core.final, lifePath.final);
     const money  = buildMoneyBlock(core.final, fullNameCode.final);
@@ -993,6 +989,9 @@
         • Ядро: <strong>${core.final}</strong> — ${escapeHtml(co.title || "")}<br/>
         • Имя: <strong>${fullNameCode.final}</strong> — ${escapeHtml(nn.title || "")}<br/>
         • Город: <strong>${cityCode.final}</strong> — ${escapeHtml(gc.title || "")}
+        ${currentSurnameCode ? `<br/>• Фамилия сейчас: <strong>${currentSurnameCode.final}</strong> — текущий стиль проявления.` : ``}
+        ${currentCityCode ? `<br/>• Город проживания: <strong>${currentCityCode.final}</strong> — актуальный фон решений.` : ``}
+        ${currentContext ? `<br/>• Актуальный фокус: <strong>${currentContext.final}</strong> — ${escapeHtml(cc.title || "")}` : ``}
       </div>
 
       <div style="margin-top:12px">
@@ -1238,186 +1237,6 @@
     return lines.join("<br/>");
   }
 
-  // ====== Export: collect blocks and build report ======
-  function collectBlocksForExport(){
-    const blocks = [];
-    const results = document.getElementById('results');
-    if (!results) return blocks;
-
-    const cards = [
-      {id:'summaryCard', title:'Паспорт личности'},
-      {id:'coreCard', title:'Ключевые коды', detail:'full'},
-      {id:'matrixCard', title:'Матрица даты рождения', detail:'full'},
-      {id:'portraitCard', title:'Индивидуальный портрет', detail:'full'},
-      {id:'lifeAreasCard', title:'Сферы жизни', detail:'full'},
-      {id:'forecastCard', title:'Прогноз и циклы', detail:'full'},
-      {id:'recommendCard', title:'Рекомендации'}
-    ];
-
-    for (const c of cards){
-      if (c.detail === 'full' && VIEW_MODE !== 'full') continue;
-      const el = document.getElementById(c.id);
-      if (!el) continue;
-      blocks.push({ id: c.id, title: c.title, html: el.innerHTML });
-    }
-    return blocks;
-  }
-
-  function buildReportHtmlDocument({viewMode, fullName, birthCity, birthDate, blocks}){
-    const safeDate = new Date(birthDate).toLocaleDateString('ru-RU');
-    const now = new Date().toLocaleString('ru-RU');
-
-    const reportCss = `
-      :root{
-        --bg:#0b0b12; --card:#141427; --text:#e9e9f2; --muted:#b9b9cc;
-        --primary:#7c3aed; --accent:#fbbf24; --danger:#fb7185; --border: rgba(255,255,255,0.10);
-      }
-      *{box-sizing:border-box}
-      body{
-        margin:0; padding:22px;
-        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
-        color:var(--text); background: var(--bg); line-height:1.6;
-      }
-      .wrap{max-width:980px;margin:0 auto}
-      .top{
-        display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
-        padding:12px 0 18px; border-bottom:1px solid rgba(255,255,255,0.10); margin-bottom:14px;
-      }
-      h1{margin:0;font-size:24px}
-      .meta{color:var(--muted); font-size:13px}
-      .card{
-        background: linear-gradient(180deg, rgba(255,255,255,0.03), transparent 55%), var(--card);
-        border:1px solid var(--border);
-        border-radius:16px;
-        padding:16px;
-        margin:12px 0;
-      }
-      .footer{
-        margin-top:18px;
-        color:var(--muted);
-        font-size:12px;
-        text-align:center;
-        padding:10px 0;
-        border-top:1px solid rgba(255,255,255,0.10);
-      }
-      /* print */
-      @media print{
-        body{background:#fff;color:#111}
-        .card{background:#fff;border:1px solid #ddd}
-        .meta,.footer{color:#444}
-      }
-    `;
-
-    const bodyCards = blocks.map(b => `
-      <div class="card">
-        ${b.html}
-      </div>
-    `).join('\n');
-
-    const disclaimer = `
-      <div class="card">
-        <div style="color:var(--muted);font-size:13px">
-          Режим отчёта: <strong>${viewMode === 'full' ? 'Подробно' : 'Кратко'}</strong><br/>
-          Примечание: этот отчёт — инструмент самопонимания и символическая модель.
-        </div>
-      </div>
-    `;
-
-    return `<!DOCTYPE html>
-<html lang="ru">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Нумерологический паспорт — отчёт и матрица судьбы</title>
-  <style>${reportCss}</style>
-</head>
-<body>
-  <div class="wrap">
-    <div class="top">
-      <div>
-        <h1>🔮 Нумерологический паспорт — отчёт</h1>
-        <div class="meta">Сформировано: ${escapeHtml(now)}</div>
-      </div>
-      <div class="meta" style="text-align:right">
-        <div><strong>${escapeHtml(fullName)}</strong></div>
-        <div>${escapeHtml(birthCity)} • ${escapeHtml(safeDate)}</div>
-      </div>
-    </div>
-
-    ${bodyCards}
-    ${disclaimer}
-
-    <div class="footer">
-      Сгенерировано локально в браузере • файл можно распечатать или отправить
-    </div>
-  </div>
-</body>
-</html>`;
-  }
-
-  // ====== Export actions ======
-  function openExportModal(){
-    if (!LAST_REPORT_HTML){
-      alert("Сначала сделай расчёт, чтобы сформировать отчёт.");
-      return;
-    }
-    const modal = document.getElementById('exportModal');
-    const ta = document.getElementById('exportTextarea');
-    ta.value = LAST_REPORT_HTML;
-    modal.style.display = 'flex';
-  }
-  function closeExportModal(){
-    document.getElementById('exportModal').style.display = 'none';
-  }
-
-  function copyReportHtml(){
-    const ta = document.getElementById('exportTextarea');
-    if (!ta.value) return;
-    ta.select();
-    ta.setSelectionRange(0, ta.value.length);
-    try{
-      document.execCommand('copy');
-      alert("HTML отчёта скопирован.");
-    } catch(e){
-      navigator.clipboard?.writeText(ta.value);
-      alert("HTML отчёта скопирован.");
-    }
-  }
-
-  function downloadReportHtml(){
-    if (!LAST_REPORT_HTML){
-      alert("Сначала сделай расчёт, чтобы сформировать отчёт.");
-      return;
-    }
-    const blob = new Blob([LAST_REPORT_HTML], {type:"text/html;charset=utf-8"});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    const ts = new Date();
-    const pad = (n)=> String(n).padStart(2,'0');
-    const fileName = `passport_report_${ts.getFullYear()}-${pad(ts.getMonth()+1)}-${pad(ts.getDate())}.html`;
-    a.href = url;
-    a.download = fileName;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    setTimeout(()=>URL.revokeObjectURL(url), 1000);
-  }
-
-  function openReportInNewTab(){
-    if (!LAST_REPORT_HTML){
-      alert("Сначала сделай расчёт, чтобы сформировать отчёт.");
-      return;
-    }
-    const blob = new Blob([LAST_REPORT_HTML], {type:"text/html;charset=utf-8"});
-    const url = URL.createObjectURL(blob);
-    window.open(url, "_blank", "noopener,noreferrer");
-    setTimeout(()=>URL.revokeObjectURL(url), 2000);
-  }
-
-  // Close modal on overlay click
-  document.getElementById('exportModal').addEventListener('click', (e)=>{
-    if (e.target.id === 'exportModal') closeExportModal();
-  });
 </script>
 </body>
 </html>
